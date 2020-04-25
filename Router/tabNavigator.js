@@ -25,7 +25,7 @@ const RouteConfigs = {
       tabBarIcon: ({ tintColor }) => (
         <FontAwesome name='plus-square' size={30} color={tintColor} />
       ),
-      title: 'Add Deck',
+      title: 'New Deck',
     },
   },
 };
