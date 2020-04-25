@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { gray, white, pink } from '../utils/colors';
+import { gray, white, pink, red } from '../utils/colors';
 
 const DeckDetail = () => {
   return (
@@ -13,6 +13,9 @@ const DeckDetail = () => {
         </TouchableOpacity>
         <TouchableOpacity style={[styles.btn, styles.coloredBtn]}>
           <Text style={{ color: white }}>Start Quiz</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.answerLabel}>Delete Deck</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -54,5 +57,11 @@ const styles = StyleSheet.create({
   },
   coloredBtn: {
     backgroundColor: pink,
+  },
+  answerLabel: {
+    color: red,
+    textAlign: 'center',
+    fontSize: 20,
+    marginTop: 50,
   },
 });

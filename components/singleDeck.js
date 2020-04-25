@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { gray } from '../utils/colors';
 
 const SingleDeck = ({ deck }) => {
@@ -17,7 +18,9 @@ const SingleDeck = ({ deck }) => {
   );
 };
 
-export default SingleDeck;
+const mapStateToProps = (decks) => {};
+
+export default connect()(SingleDeck);
 
 const styles = StyleSheet.create({
   container: {

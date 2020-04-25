@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import { connect } from 'react-redux';
 import SingleDeck from './singleDeck';
 import { white } from '../utils/colors';
 import { getDecks } from '../utils/api';
+import { handleFetchingDecks } from '../actions';
 
 const decks = [
   {
@@ -36,17 +38,23 @@ const wait = (timeout) =>
     setTimeout(resolve, timeout);
   });
 
-const Decks = () => {
-  const [refreshing, setRefreshing] = React.useState(false);
+const Decks = (props) => {
+  useEffect(() => {
+    props.dispatch(handleFetchingDecks());
+  }, []);
 
-  const onRefresh = React.useCallback(async () => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    // TODO: dispatch  getDecks
-    getDecks();
+
+    props.dispatch(handleFetchingDecks());
 
     wait(2000).then(() => setRefreshing(false));
   }, [refreshing]);
 
+  const { deckIds } = props;
+  
   return (
     <View style={styles.container}>
       <ScrollView
@@ -54,7 +62,7 @@ const Decks = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {decks.map((deck) => (
+        {deckIds.map((deck) => (
           <SingleDeck deck={deck} />
         ))}
       </ScrollView>
@@ -62,7 +70,13 @@ const Decks = () => {
   );
 };
 
-export default Decks;
+const mapStateToProps = (decks) => {
+  return {
+    deckIds: Object.keys(decks),
+  };
+};
+
+export default connect(mapStateToProps)(Decks);
 
 const styles = StyleSheet.create({
   container: {

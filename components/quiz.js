@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { red, white, green, pink } from '../utils/colors';
 
 const Quiz = () => {
+  const [showAnswer, setShowAnswer] = useState(false);
+
   return (
     <View style={styles.container}>
       <Text style={styles.quizNum}>2/2</Text>
@@ -11,15 +13,37 @@ const Quiz = () => {
           Very Long text here to test how it worksVery Long text here to test
           how it works
         </Text>
-        <Text style={styles.answerLabel}>Answer</Text>
       </View>
+      {showAnswer && (
+        <View>
+          <Text style={styles.answerLabel}>Answer</Text>
+          <Text style={styles.quizAnswer}>
+            Very Long text here to test how it worksVery Long text here to test
+            how it works
+          </Text>
+        </View>
+      )}
       <View style={styles.buttonsGroup}>
-        <TouchableOpacity style={[styles.btn, { backgroundColor: green }]}>
-          <Text style={{ color: white }}>Correct</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.btn, { backgroundColor: red }]}>
-          <Text style={{ color: white }}>Incorrect</Text>
-        </TouchableOpacity>
+        {!showAnswer && (
+          <View>
+          <TouchableOpacity
+            style={[styles.btn, { backgroundColor: pink }]}
+            onPress={() => setShowAnswer(true)}
+          >
+            <Text style={{ color: white }}>Show Answer</Text>
+          </TouchableOpacity>
+          </View>
+        )}
+        {showAnswer && (
+          <View>
+            <TouchableOpacity style={[styles.btn, { backgroundColor: green }]}>
+              <Text style={{ color: white }}>Correct</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.btn, { backgroundColor: red }]}>
+              <Text style={{ color: white }}>Incorrect</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -44,14 +68,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
+  quizAnswer: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: green,
+  },
   answerLabel: {
     color: red,
     textAlign: 'center',
     fontSize: 20,
   },
   buttonsGroup: {
-    marginTop: 100,
     alignItems: 'center',
+    marginBottom: 50,
   },
   btn: {
     margin: 20,
