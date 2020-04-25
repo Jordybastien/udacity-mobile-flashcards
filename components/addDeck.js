@@ -6,11 +6,20 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { gray, white, pink } from '../utils/colors';
+import { handleAddingDeckTitle } from '../actions'
 
 class AddDeck extends Component {
   state = {
     deckTitle: '',
+  };
+
+  handleSubmit = () => {
+    const { deckTitle } = this.state;
+    this.setState({ deckTitle: '' });
+    this.props.dispatch(handleAddingDeckTitle(deckTitle))
+    // Redirect to deck detail view
   };
 
   render() {
@@ -27,7 +36,11 @@ class AddDeck extends Component {
           onChangeText={(deckTitle) => this.setState({ deckTitle })}
           value={deckTitle}
         />
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity
+          onPress={this.handleSubmit}
+          style={styles.btn}
+          disabled={deckTitle === ''}
+        >
           <Text style={{ color: white }}>Submit</Text>
         </TouchableOpacity>
       </View>
@@ -35,7 +48,7 @@ class AddDeck extends Component {
   }
 }
 
-export default AddDeck;
+export default connect()(AddDeck);
 
 const styles = StyleSheet.create({
   container: {

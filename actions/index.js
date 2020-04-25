@@ -1,4 +1,4 @@
-import { getDecks } from '../utils/api';
+import { getDecks, saveDeckTitle } from '../utils/api';
 
 export const FETCH_DECKS = 'FETCH_DECKS';
 export const ADD_DECK_TITLE = 'ADD_DECK_TITLE';
@@ -28,13 +28,24 @@ export const handleFetchingDecks = () => {
 
 /**
  *
- * @param {*} title receives deck title
+ * @param title receives deck title
  * @returns an object with the ADD_DECK_TITLE type and title
  */
 export const addDeckTitle = (title) => {
   return {
     type: ADD_DECK_TITLE,
     title,
+  };
+};
+
+/**
+ * @param title receives deck title
+ * @description function to handle adding deck title to our async Storage
+ */
+export const handleAddingDeckTitle = (title) => {
+  return async (dispatch) => {
+    await saveDeckTitle(title);
+    return dispatch(addDeckTitle(title));
   };
 };
 

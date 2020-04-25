@@ -3,7 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { gray } from '../utils/colors';
 
-const SingleDeck = ({ deck }) => {
+const SingleDeck = (props) => {
+  const { deck } = props;
+
   return (
     <View>
       <TouchableOpacity
@@ -11,16 +13,21 @@ const SingleDeck = ({ deck }) => {
       >
         <View style={styles.container}>
           <Text style={styles.title}>{deck.title}</Text>
-          <Text style={styles.cardsNumber}>{deck.number} cards</Text>
+          <Text style={styles.cardsNumber}>{deck.questions && deck.questions.length} cards</Text>
         </View>
       </TouchableOpacity>
     </View>
   );
 };
 
-const mapStateToProps = (decks) => {};
+const mapStateToProps = (decks, { deck }) => {
 
-export default connect()(SingleDeck);
+  return {
+    deck: decks[deck],
+  };
+};
+
+export default connect(mapStateToProps)(SingleDeck);
 
 const styles = StyleSheet.create({
   container: {

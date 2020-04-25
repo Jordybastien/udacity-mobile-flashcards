@@ -11,6 +11,11 @@ const decks = (state = {}, action) => {
       return {
         ...action.decks,
       };
+    case ADD_DECK_TITLE:
+      return {
+        ...state,
+        [action.title]: { title: action.title, questions: [] },
+      };
     default:
       return state;
   }

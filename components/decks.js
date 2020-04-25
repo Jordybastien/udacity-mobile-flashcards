@@ -1,37 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+  Text,
+} from 'react-native';
 import { connect } from 'react-redux';
 import SingleDeck from './singleDeck';
 import { white } from '../utils/colors';
 import { getDecks } from '../utils/api';
 import { handleFetchingDecks } from '../actions';
-
-const decks = [
-  {
-    title: 'This is a question here',
-    number: 2,
-  },
-  {
-    title: 'This is another question here',
-    number: 3,
-  },
-  {
-    title: 'This is a very long one to test how it worksquestion here',
-    number: 4,
-  },
-  {
-    title: 'This is a question here',
-    number: 6,
-  },
-  {
-    title: 'This is another question here',
-    number: 8,
-  },
-  {
-    title: 'This is a very long one to test how it worksquestion here',
-    number: 10,
-  },
-];
 
 const wait = (timeout) =>
   new Promise((resolve) => {
@@ -54,7 +33,23 @@ const Decks = (props) => {
   }, [refreshing]);
 
   const { deckIds } = props;
-  
+
+  if (deckIds.length === 0) {
+    return (
+      <View style={[styles.container, { padding: 20 }]}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          <Text style={styles.noDeck}>
+            There are no decks, Pull down to refresh
+          </Text>
+        </ScrollView>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -63,7 +58,7 @@ const Decks = (props) => {
         }
       >
         {deckIds.map((deck) => (
-          <SingleDeck deck={deck} />
+          <SingleDeck deck={deck} key={deck}/>
         ))}
       </ScrollView>
     </View>
@@ -83,5 +78,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: white,
     paddingTop: 50,
+  },
+  noDeck: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
