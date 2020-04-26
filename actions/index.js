@@ -1,4 +1,4 @@
-import { getDecks, saveDeckTitle } from '../utils/api';
+import { getDecks, saveDeckTitle, deleteDeck } from '../utils/api';
 
 export const FETCH_DECKS = 'FETCH_DECKS';
 export const ADD_DECK_TITLE = 'ADD_DECK_TITLE';
@@ -31,7 +31,7 @@ export const handleFetchingDecks = () => {
  * @param title receives deck title
  * @returns an object with the ADD_DECK_TITLE type and title
  */
-export const addDeckTitle = (title) => {
+const addDeckTitle = (title) => {
   return {
     type: ADD_DECK_TITLE,
     title,
@@ -68,9 +68,20 @@ export const addCardToDeck = (title, card) => {
  * @param {*} key receives deck key
  * @returns an object with the DELETE_DECK type and key
  */
-export const deleteDeck = (key) => {
+const removeDeck = (key) => {
   return {
     type: DELETE_DECK,
     key,
+  };
+};
+
+/**
+ * @param title receives deck key
+ * @description function to handle deleting deck
+ */
+export const handleDeleteDeck = (key) => {
+  return async (dispatch) => {
+    await deleteDeck(key);
+    return dispatch(handleFetchingDecks());
   };
 };

@@ -5,6 +5,7 @@ import {
   ScrollView,
   RefreshControl,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import SingleDeck from './singleDeck';
@@ -58,7 +59,17 @@ const Decks = (props) => {
         }
       >
         {deckIds.map((deck) => (
-          <SingleDeck deck={deck} key={deck}/>
+          <TouchableOpacity
+            key={deck}
+            onPress={() => {
+              props.navigation.navigate('DeckDetail', {
+                deckId: deck,
+                title: deck,
+              });
+            }}
+          >
+            <SingleDeck deck={deck} key={deck} />
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>

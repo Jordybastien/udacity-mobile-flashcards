@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { white, pink } from '../utils/colors';
 import TabNav from './tabNavigator';
+import DeckDetail from '../components/deckDetail';
 
 const StackNavigatorConfig = {
   headerMode: 'screen',
@@ -12,6 +13,16 @@ const StackConfig = {
     component: TabNav,
     options: { headerShown: false },
   },
+  DeckDetail: {
+    name: 'DeckDetail',
+    component: DeckDetail,
+    options: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: pink,
+      },
+    },
+  },
 };
 const Stack = createStackNavigator();
 
@@ -19,6 +30,13 @@ const StackNavigator = () => {
   return (
     <Stack.Navigator {...StackNavigatorConfig}>
       <Stack.Screen {...StackConfig['TabNav']} />
+      <Stack.Screen
+        {...StackConfig['DeckDetail']}
+        options={({ route }) => ({
+          ...StackConfig['DeckDetail'].options,
+          title: route.params.title,
+        })}
+      />
     </Stack.Navigator>
   );
 };

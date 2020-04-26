@@ -19,7 +19,7 @@ class AddDeck extends Component {
     const { deckTitle } = this.state;
     this.setState({ deckTitle: '' });
     this.props.dispatch(handleAddingDeckTitle(deckTitle))
-    // Redirect to deck detail view
+    this.props.navigation.navigate('DeckDetail', { deckId: deckTitle, title: deckTitle })
   };
 
   render() {

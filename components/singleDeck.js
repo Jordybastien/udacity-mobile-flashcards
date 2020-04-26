@@ -4,26 +4,24 @@ import { connect } from 'react-redux';
 import { gray } from '../utils/colors';
 
 const SingleDeck = (props) => {
-  const { deck } = props;
+  const { deck, deckId } = props;
 
   return (
     <View>
-      <TouchableOpacity
-        onPress={() => this.props.navigation.navigate('DeckDetail')}
-      >
-        <View style={styles.container}>
-          <Text style={styles.title}>{deck.title}</Text>
-          <Text style={styles.cardsNumber}>{deck.questions && deck.questions.length} cards</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.container}>
+        <Text style={styles.title}>{deck.title}</Text>
+        <Text style={styles.cardsNumber}>
+          {deck.questions && deck.questions.length} cards
+        </Text>
+      </View>
     </View>
   );
 };
 
 const mapStateToProps = (decks, { deck }) => {
-
   return {
     deck: decks[deck],
+    deckId: deck,
   };
 };
 
