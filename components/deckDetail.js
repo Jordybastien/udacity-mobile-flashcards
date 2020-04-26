@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { AppLoading } from 'expo';
 import { gray, white, pink, red } from '../utils/colors';
@@ -7,13 +13,26 @@ import { handleDeleteDeck } from '../actions';
 
 // const DeckDetail = (props) => {
 class DeckDetail extends Component {
+  state = {
+    animationValue: new Animated.Value(1),
+  };
+
   removeDeck = (deckId) => {
     this.props.dispatch(handleDeleteDeck(deckId));
     this.props.navigation.goBack();
   };
 
+  componentDidMount() {
+    const { animationValue } = this.state;
+    Animated.sequence([
+      Animated.timing(animationValue, { duration: 200, toValue: 1.5 }),
+      Animated.spring(animationValue, { toValue: 1, friction: 4 }),
+    ]).start();
+  }
+
   render() {
     const { deckId, deck, navigation } = this.props;
+    const { animationValue } = this.state;
 
     if (deck === undefined) {
       return <AppLoading />;
@@ -21,16 +40,25 @@ class DeckDetail extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.deckTitle}>{deck && deck.title}</Text>
-        <Text style={styles.cardsNumber}>
+        <Animated.Text
+          style={[styles.deckTitle, { transform: [{ scale: animationValue }] }]}
+        >
+          {deck && deck.title}
+        </Animated.Text>
+        <Animated.Text
+          style={[
+            styles.cardsNumber,
+            { transform: [{ scale: animationValue }] },
+          ]}
+        >
           {deck.questions && deck.questions.length} cards
-        </Text>
+        </Animated.Text>
         <View style={styles.buttonsGroup}>
           <TouchableOpacity
             style={[styles.btn, styles.transparentBtn]}
             onPress={() => {
               navigation.navigate('AddCard', {
-                deckId
+                deckId,
               });
             }}
           >
