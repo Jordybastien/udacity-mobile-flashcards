@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { white, pink } from '../utils/colors';
 import TabNav from './tabNavigator';
 import DeckDetail from '../components/deckDetail';
+import AddCard from '../components/addCard';
 
 const StackNavigatorConfig = {
   headerMode: 'screen',
@@ -23,6 +24,17 @@ const StackConfig = {
       },
     },
   },
+  AddCard: {
+    name: 'AddCard',
+    component: AddCard,
+    options: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: pink,
+      },
+      title: 'Add Card',
+    },
+  },
 };
 const Stack = createStackNavigator();
 
@@ -37,6 +49,7 @@ const StackNavigator = () => {
           title: route.params.title,
         })}
       />
+      <Stack.Screen {...StackConfig['AddCard']} />
     </Stack.Navigator>
   );
 };

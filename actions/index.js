@@ -1,4 +1,9 @@
-import { getDecks, saveDeckTitle, deleteDeck } from '../utils/api';
+import {
+  getDecks,
+  saveDeckTitle,
+  deleteDeck,
+  addCardToDeck,
+} from '../utils/api';
 
 export const FETCH_DECKS = 'FETCH_DECKS';
 export const ADD_DECK_TITLE = 'ADD_DECK_TITLE';
@@ -55,11 +60,22 @@ export const handleAddingDeckTitle = (title) => {
  * @param {*} card receives deck card
  * @returns an object with the ADD_CARD_TO_DECK type, title and card
  */
-export const addCardToDeck = (title, card) => {
+const addCard = (title, card) => {
   return {
     type: ADD_CARD_TO_DECK,
     title,
     card,
+  };
+};
+
+/**
+ * @param title receives deck title and card
+ * @description function to handle adding a card to deck
+ */
+export const handleAddCard = (title, card) => {
+  return async (dispatch) => {
+    await addCardToDeck(title, card);
+    return dispatch(addCard(title, card));
   };
 };
 

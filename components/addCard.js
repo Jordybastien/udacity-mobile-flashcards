@@ -7,6 +7,8 @@ import {
   StyleSheet,
 } from 'react-native';
 import { gray, white, pink } from '../utils/colors';
+import { connect } from 'react-redux';
+import { handleAddCard } from '../actions';
 
 class AddCard extends Component {
   state = {
@@ -14,8 +16,15 @@ class AddCard extends Component {
     answer: '',
   };
 
+  handleSubmit = (deckId) => {
+    const { question, answer } = this.state;
+    this.props.dispatch(handleAddCard(deckId, { question, answer }));
+    this.props.navigation.goBack();
+  };
+
   render() {
     const { question, answer } = this.state;
+    const { deckId } = this.props;
 
     return (
       <View style={styles.container}>
@@ -31,7 +40,11 @@ class AddCard extends Component {
           onChangeText={(answer) => this.setState({ answer })}
           value={answer}
         />
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity
+          style={styles.btn}
+          disabled={question === '' || answer === ''}
+          onPress={() => this.handleSubmit(deckId)}
+        >
           <Text style={{ color: white }}>Submit</Text>
         </TouchableOpacity>
       </View>
@@ -39,7 +52,16 @@ class AddCard extends Component {
   }
 }
 
-export default AddCard;
+const mapStateToProps = (decks, { route }) => {
+  const { deckId } = route.params;
+
+  return {
+    deckId,
+    deck: decks[deckId],
+  };
+};
+
+export default connect(mapStateToProps)(AddCard);
 
 const styles = StyleSheet.create({
   container: {

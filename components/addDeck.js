@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { gray, white, pink } from '../utils/colors';
-import { handleAddingDeckTitle } from '../actions'
+import { handleAddingDeckTitle } from '../actions';
 
 class AddDeck extends Component {
   state = {
@@ -18,8 +18,11 @@ class AddDeck extends Component {
   handleSubmit = () => {
     const { deckTitle } = this.state;
     this.setState({ deckTitle: '' });
-    this.props.dispatch(handleAddingDeckTitle(deckTitle))
-    this.props.navigation.navigate('DeckDetail', { deckId: deckTitle, title: deckTitle })
+    this.props.dispatch(handleAddingDeckTitle(deckTitle));
+    this.props.navigation.navigate('DeckDetail', {
+      deckId: deckTitle,
+      title: deckTitle,
+    });
   };
 
   render() {

@@ -13,7 +13,7 @@ class DeckDetail extends Component {
   };
 
   render() {
-    const { deckId, deck } = this.props;
+    const { deckId, deck, navigation } = this.props;
 
     if (deck === undefined) {
       return <AppLoading />;
@@ -26,7 +26,14 @@ class DeckDetail extends Component {
           {deck.questions && deck.questions.length} cards
         </Text>
         <View style={styles.buttonsGroup}>
-          <TouchableOpacity style={[styles.btn, styles.transparentBtn]}>
+          <TouchableOpacity
+            style={[styles.btn, styles.transparentBtn]}
+            onPress={() => {
+              navigation.navigate('AddCard', {
+                deckId
+              });
+            }}
+          >
             <Text style={{ color: pink }}>Add Card</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.btn, styles.coloredBtn]}>
