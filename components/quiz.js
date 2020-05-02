@@ -1,55 +1,153 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { red, white, green, pink } from '../utils/colors';
 
-const Quiz = () => {
-  const [showAnswer, setShowAnswer] = useState(false);
+class Quiz extends Component {
+  state = {
+    showAnswer: false,
+    currentQuestionIndex: 0,
+    correctAnswers: 0,
+  };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.quizNum}>2/2</Text>
-      <View>
-        <Text style={styles.quizTitle}>
-          Very Long text here to test how it worksVery Long text here to test
-          how it works
+  handleResponse = (response) => {
+    const {
+      currentQuestionIndex: newIndex,
+      correctAnswers: newCorrectAnswer,
+    } = this.state;
+
+    this.setState({
+      showAnswer: false,
+      currentQuestionIndex: newIndex + 1,
+      correctAnswers: response ? newCorrectAnswer + 1 : newCorrectAnswer,
+    });
+  };
+
+  handleReset = () => {
+    this.setState({
+      showAnswer: false,
+      currentQuestionIndex: 0,
+      correctAnswers: 0,
+    });
+  };
+
+  render() {
+    const { showAnswer, currentQuestionIndex, correctAnswers } = this.state;
+    const { questions, deckId, navigation } = this.props;
+
+    if (!questions.length) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.quizTitle}>
+            You can not take the test at this time. There are no cards in this
+            deck
+          </Text>
+          <View>
+            <TouchableOpacity
+              style={[styles.btn, styles.coloredBtn]}
+              onPress={() => {
+                navigation.navigate('DeckDetail', {
+                  deckId,
+                  title: deckId,
+                });
+              }}
+            >
+              <Text style={{ color: white }}>Back to Deck</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+
+    if (questions.length === currentQuestionIndex) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.quizTitle}>
+            {correctAnswers} correct answers out of {questions.length}
+          </Text>
+          <View>
+            <TouchableOpacity
+              style={[styles.btn, styles.transparentBtn]}
+              onPress={() => this.handleReset()}
+            >
+              <Text style={{ color: pink }}>Restart Quiz</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.btn, styles.coloredBtn]}
+              onPress={() => {
+                navigation.navigate('DeckDetail', {
+                  deckId,
+                  title: deckId,
+                });
+              }}
+            >
+              <Text style={{ color: white }}>Back to Deck</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.container}>
+        <Text style={styles.quizNum}>
+          {currentQuestionIndex + 1}/{questions.length}
         </Text>
-      </View>
-      {showAnswer && (
         <View>
-          <Text style={styles.answerLabel}>Answer</Text>
-          <Text style={styles.quizAnswer}>
-            Very Long text here to test how it worksVery Long text here to test
-            how it works
+          <Text style={styles.quizTitle}>
+            {questions[currentQuestionIndex].question}
           </Text>
         </View>
-      )}
-      <View style={styles.buttonsGroup}>
-        {!showAnswer && (
-          <View>
-          <TouchableOpacity
-            style={[styles.btn, { backgroundColor: pink }]}
-            onPress={() => setShowAnswer(true)}
-          >
-            <Text style={{ color: white }}>Show Answer</Text>
-          </TouchableOpacity>
-          </View>
-        )}
         {showAnswer && (
           <View>
-            <TouchableOpacity style={[styles.btn, { backgroundColor: green }]}>
-              <Text style={{ color: white }}>Correct</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.btn, { backgroundColor: red }]}>
-              <Text style={{ color: white }}>Incorrect</Text>
-            </TouchableOpacity>
+            <Text style={styles.answerLabel}>Answer</Text>
+            <Text style={styles.quizAnswer}>
+              {questions[currentQuestionIndex].answer}
+            </Text>
           </View>
         )}
+        <View style={styles.buttonsGroup}>
+          {!showAnswer && (
+            <View>
+              <TouchableOpacity
+                style={[styles.btn, { backgroundColor: pink }]}
+                onPress={() => this.setState({ showAnswer: true })}
+              >
+                <Text style={{ color: white }}>Show Answer</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {showAnswer && (
+            <View>
+              <TouchableOpacity
+                style={[styles.btn, { backgroundColor: green }]}
+                onPress={() => this.handleResponse(true)}
+              >
+                <Text style={{ color: white }}>Correct</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.btn, { backgroundColor: red }]}
+                onPress={() => this.handleResponse(false)}
+              >
+                <Text style={{ color: white }}>Incorrect</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
+}
+
+const mapStateToProps = (decks, { route }) => {
+  const { deckId } = route.params;
+  return {
+    deckId,
+    questions: decks[deckId].questions,
+  };
 };
 
-export default Quiz;
+export default connect(mapStateToProps)(Quiz);
 
 const styles = StyleSheet.create({
   container: {
@@ -91,5 +189,13 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
     borderRadius: 10,
+  },
+  transparentBtn: {
+    backgroundColor: white,
+    borderColor: pink,
+    borderWidth: 1,
+  },
+  coloredBtn: {
+    backgroundColor: pink,
   },
 });

@@ -11,7 +11,6 @@ import { AppLoading } from 'expo';
 import { gray, white, pink, red } from '../utils/colors';
 import { handleDeleteDeck } from '../actions';
 
-// const DeckDetail = (props) => {
 class DeckDetail extends Component {
   state = {
     animationValue: new Animated.Value(1),
@@ -64,7 +63,14 @@ class DeckDetail extends Component {
           >
             <Text style={{ color: pink }}>Add Card</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btn, styles.coloredBtn]}>
+          <TouchableOpacity
+            style={[styles.btn, styles.coloredBtn]}
+            onPress={() => {
+              navigation.navigate('Quiz', {
+                deckId,
+              });
+            }}
+          >
             <Text style={{ color: white }}>Start Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.removeDeck(deckId)}>

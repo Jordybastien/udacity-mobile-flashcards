@@ -4,6 +4,7 @@ import { white, pink } from '../utils/colors';
 import TabNav from './tabNavigator';
 import DeckDetail from '../components/deckDetail';
 import AddCard from '../components/addCard';
+import Quiz from '../components/quiz';
 
 const StackNavigatorConfig = {
   headerMode: 'screen',
@@ -35,6 +36,16 @@ const StackConfig = {
       title: 'Add Card',
     },
   },
+  Quiz: {
+    name: 'Quiz',
+    component: Quiz,
+    options: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: pink,
+      },
+    },
+  },
 };
 const Stack = createStackNavigator();
 
@@ -50,6 +61,13 @@ const StackNavigator = () => {
         })}
       />
       <Stack.Screen {...StackConfig['AddCard']} />
+      <Stack.Screen
+        {...StackConfig['Quiz']}
+        options={({ route }) => ({
+          ...StackConfig['Quiz'].options,
+          title: route.params.deckId,
+        })}
+      />
     </Stack.Navigator>
   );
 };
