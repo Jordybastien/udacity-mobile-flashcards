@@ -9,6 +9,7 @@ import Quiz from '../components/quiz';
 const StackNavigatorConfig = {
   headerMode: 'screen',
 };
+
 const StackConfig = {
   TabNav: {
     name: 'Home',
@@ -49,6 +50,9 @@ const StackConfig = {
 };
 const Stack = createStackNavigator();
 
+/**
+ * @description functional component to return all stack screens 
+ */
 const StackNavigator = () => {
   return (
     <Stack.Navigator {...StackNavigatorConfig}>

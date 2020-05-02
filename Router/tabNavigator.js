@@ -55,6 +55,9 @@ const Tab =
     ? createBottomTabNavigator()
     : createMaterialTopTabNavigator();
 
+/**
+ * @description functional component to return a Tab navigator
+ */
 const TabNavigator = () => {
   return (
     <Tab.Navigator {...TabNavigatorConfig}>

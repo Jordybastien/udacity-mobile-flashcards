@@ -8,6 +8,10 @@ import middleware from './middleware';
 import { setLocalNotification } from './utils/notificationsHelper';
 
 class App extends Component {
+  
+  /**
+   * @description function that runs when mounting the component and set local notification
+   */
   componentDidMount() {
     setLocalNotification();
   }

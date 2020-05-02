@@ -5,6 +5,9 @@ import Constants from 'expo-constants';
 import { StatusBar, View } from 'react-native';
 import MainNav from './stackNavigator';
 
+/**
+ * @description functional component to return a component with all routes
+ */
 const Router = () => {
   return (
     <NavigationContainer>
@@ -14,6 +17,10 @@ const Router = () => {
   );
 };
 
+/**
+ * @param object receives object containing the backgroundColor and other props
+ * @description functional component to return Status Bar
+ */
 const AppStatusBar = ({ backgroundColor, ...props }) => {
   return (
     <View style={{ backgroundColor, height: Constants.statusBarHeight }}>

@@ -15,6 +15,9 @@ class AddDeck extends Component {
     deckTitle: '',
   };
 
+  /**
+   * @description function to handle submission of a new deck
+   */
   handleSubmit = () => {
     const { deckTitle } = this.state;
     this.setState({ deckTitle: '' });

@@ -14,6 +14,10 @@ class Quiz extends Component {
     correctAnswers: 0,
   };
 
+  /**
+   * @param response receives response which is boolean
+   * @description function to handle user response on a quiz
+   */
   handleResponse = (response) => {
     const {
       currentQuestionIndex: newIndex,
@@ -28,6 +32,9 @@ class Quiz extends Component {
     clearLocalNotification().then(setLocalNotification);
   };
 
+  /**
+   * @description function to reset quiz 
+   */
   handleReset = () => {
     this.setState({
       showAnswer: false,

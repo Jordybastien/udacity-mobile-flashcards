@@ -16,11 +16,18 @@ class DeckDetail extends Component {
     animationValue: new Animated.Value(1),
   };
 
+  /**
+   * @param deckId receives deckId
+   * @description function to delete deck
+   */
   removeDeck = (deckId) => {
     this.props.dispatch(handleDeleteDeck(deckId));
     this.props.navigation.goBack();
   };
 
+  /**
+   * @description function to run when component mounts and will execute some animations
+   */
   componentDidMount() {
     const { animationValue } = this.state;
     Animated.sequence([

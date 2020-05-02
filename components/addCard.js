@@ -16,6 +16,10 @@ class AddCard extends Component {
     answer: '',
   };
 
+  /**
+   * @param deckId receives deckId
+   * @description function to handle submission of a new card to be added to the deck
+   */
   handleSubmit = (deckId) => {
     const { question, answer } = this.state;
     this.props.dispatch(handleAddCard(deckId, { question, answer }));

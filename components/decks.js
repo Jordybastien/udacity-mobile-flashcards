@@ -13,11 +13,19 @@ import { white } from '../utils/colors';
 import { getDecks } from '../utils/api';
 import { handleFetchingDecks } from '../actions';
 
+/**
+ * @param timeout timeout to be set to resolve function
+ * @description function to resolve another received function after a given time
+ */
 const wait = (timeout) =>
   new Promise((resolve) => {
     setTimeout(resolve, timeout);
   });
 
+/**
+ * @param props receives props
+ * @description functional component to display decks
+ */
 const Decks = (props) => {
   useEffect(() => {
     props.dispatch(handleFetchingDecks());

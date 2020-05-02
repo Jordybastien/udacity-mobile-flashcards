@@ -3,6 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { gray } from '../utils/colors';
 
+/**
+ * @param props receives props
+ * @description functional component to display single deck
+ */
 const SingleDeck = (props) => {
   const { deck, deckId } = props;
 
