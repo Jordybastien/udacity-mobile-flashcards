@@ -26,6 +26,9 @@ This is a mobile application that allows users to study collections of flashcard
 `npm start`
 
 #### 4. Have fun!!!
+
+## Tested Platform
+The application has been tested on an Android emulator only.
  
 
 

@@ -29,11 +29,13 @@ class Quiz extends Component {
       currentQuestionIndex: newIndex + 1,
       correctAnswers: response ? newCorrectAnswer + 1 : newCorrectAnswer,
     });
-    clearLocalNotification().then(setLocalNotification);
+    if (this.props.questions.length === newIndex + 1) {
+      clearLocalNotification().then(setLocalNotification);
+    }
   };
 
   /**
-   * @description function to reset quiz 
+   * @description function to reset quiz
    */
   handleReset = () => {
     this.setState({
@@ -129,22 +131,20 @@ class Quiz extends Component {
               </TouchableOpacity>
             </View>
           )}
-          {showAnswer && (
-            <View>
-              <TouchableOpacity
-                style={[styles.btn, { backgroundColor: green }]}
-                onPress={() => this.handleResponse(true)}
-              >
-                <Text style={{ color: white }}>Correct</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.btn, { backgroundColor: red }]}
-                onPress={() => this.handleResponse(false)}
-              >
-                <Text style={{ color: white }}>Incorrect</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+          <View>
+            <TouchableOpacity
+              style={[styles.btn, { backgroundColor: green }]}
+              onPress={() => this.handleResponse(true)}
+            >
+              <Text style={{ color: white }}>Correct</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.btn, { backgroundColor: red }]}
+              onPress={() => this.handleResponse(false)}
+            >
+              <Text style={{ color: white }}>Incorrect</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
