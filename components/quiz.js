@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { red, white, green, pink } from '../utils/colors';
+import {
+  clearLocalNotification,
+  setLocalNotification,
+} from '../utils/notificationsHelper';
 
 class Quiz extends Component {
   state = {
@@ -21,6 +25,7 @@ class Quiz extends Component {
       currentQuestionIndex: newIndex + 1,
       correctAnswers: response ? newCorrectAnswer + 1 : newCorrectAnswer,
     });
+    clearLocalNotification().then(setLocalNotification);
   };
 
   handleReset = () => {

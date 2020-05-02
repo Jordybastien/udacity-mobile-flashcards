@@ -5,14 +5,19 @@ import { createStore } from 'redux';
 import Router from './Router';
 import reducer from './reducers';
 import middleware from './middleware';
+import { setLocalNotification } from './utils/notificationsHelper';
 
 class App extends Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     const store = createStore(reducer, middleware);
 
     return (
       <Provider store={store}>
-          <Router />
+        <Router />
       </Provider>
     );
   }
